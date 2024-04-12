@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- Things from mediapipe -->
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+        <!-- The script (module) and style -->
+        <script type="module" src="mediapipe.js"></script>
+        <script src="script.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <canvas id="terrainCanvas" style="border:1px solid"></canvas>
+
+        <button id="webcamButton" class="buttonOverlay">START WEBCAM</button>
+
+        <video id="webcam" class="overlay" style="height: 30%;" autoplay playsinline></video>
+        <canvas id="landmarksCanvas" class="overlay"></canvas>
+
+    </body>
+</html>

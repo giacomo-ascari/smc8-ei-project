@@ -1,0 +1,48 @@
+body {
+  font-family: roboto;
+  margin: 2em;
+  color: #eeeeee;
+  background-color: rgba(0, 0, 0);
+}
+
+/* Flip the webcam video stream */
+video {
+    clear: both;
+    display: block;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+}
+
+.overlay {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.buttonOverlay {
+    background-color: greenyellow;
+    color: black;
+    padding: 8px;
+    border-radius: 5px;
+    border-style: none;
+    z-index: 1;
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+
+
+/* To investigate */
+canvas {
+  /*z-index: 1;*/
+  /*position: absolute;*/
+  pointer-events: none;
+}
+
+/* Flip the landmark canvas */
+#landmarksCanvas {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+  }
