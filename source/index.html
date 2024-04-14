@@ -6,19 +6,26 @@
         <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-        <!-- The script (module) and style -->
+        <!-- The scripts (including mediapipe module) -->
         <script type="module" src="mediapipe.js"></script>
-        <script src="script.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/terrain.js"></script>
+        <script src="js/hand.js"></script>
+        <script src="js/project.js"></script>
+        <script src="js/script.js"></script>
+        <!-- And styles -->
         <link rel="stylesheet" href="style.css">
     </head>
 
-    <body>
+    <body onload="onload()" onresize="onresize()">
 
-        <canvas id="terrainCanvas" style="border:1px solid"></canvas>
+        <!-- The main interaction happens here -->
+        <canvas id="terrainCanvas"></canvas>
 
+        <!-- These elements are required for webcam functionalities
+            and video feedback. All of the following sit on an overlay. -->
         <button id="webcamButton" class="buttonOverlay">START WEBCAM</button>
-
-        <video id="webcam" class="overlay" style="height: 30%;" autoplay playsinline></video>
+        <video id="webcam" class="overlay" style="height: 25%;" autoplay playsinline></video>
         <canvas id="landmarksCanvas" class="overlay"></canvas>
 
     </body>

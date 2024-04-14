@@ -1,8 +1,7 @@
+
 body {
-  font-family: roboto;
-  margin: 2em;
   color: #eeeeee;
-  background-color: rgba(0, 0, 0);
+  background-color: #333;
 }
 
 /* Flip the webcam video stream */
@@ -30,6 +29,7 @@ video {
     position: absolute;
     right: 30px;
     bottom: 30px;
+    font-weight: bold;
 }
 
 
@@ -45,4 +45,15 @@ canvas {
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
-  }
+}
+
+/* Flip the landmark canvas */
+#terrainCanvas {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  width: 96%;
+  height: 96%;
+  border: none;
+  background-color: black;
+}

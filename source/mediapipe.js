@@ -93,8 +93,14 @@ function enableCam(event) {
 let lastVideoTime = -1;
 let results = undefined;
 
+
+
 // The core functionality
 async function predictWebcam() {
+
+    if (window.mediapipeResults == undefined) {
+        window.mediapipeResults = [];
+    }
 
     canvasElement.style.width = video.style.width;
     canvasElement.style.height = video.style.height;
@@ -110,11 +116,24 @@ async function predictWebcam() {
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     if (results.landmarks) {
         for (let i = 0; i < results.landmarks.length; i++) {
-            // send the results to somewhere
             const landmarks = results.landmarks[i];
-            console.log(results.handednesses[i][0].categoryName, ":", results.gestures[i][0].categoryName);
+            //console.log(results.handednesses[i][0].categoryName, ":", results.gestures[i][0].categoryName);
             drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: "#FFFF00", lineWidth: 5});
             drawLandmarks(canvasCtx, landmarks, { color: "#FF8800", lineWidth: 2 });
+
+            let centerPos = {x: 0, y: 0, z: 0}; // 5 index knuckle, 17 pinky knuckle, 0 wrist
+            centerPos.x = (landmarks[5].x + landmarks[17].x + landmarks[0].x) / 3;
+            centerPos.y = (landmarks[5].y + landmarks[17].y + landmarks[0].y) / 3;
+            centerPos.z = (landmarks[5].z + landmarks[17].z + landmarks[0].z) / 3;
+
+            let result = {
+                handedness: results.handednesses[i][0].categoryName,
+                gesture:  results.gestures[i][0].categoryName,
+                centerPos: centerPos,
+                indexPos: landmarks[8]
+            }
+
+            window.mediapipeResults.push(result);
         }
     }
     canvasCtx.restore();
