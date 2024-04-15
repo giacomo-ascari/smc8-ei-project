@@ -47,14 +47,6 @@ class Project {
         }
     }
 
-    resize() {
-        // damn you browsers
-        this.canvas.width = this.canvas.clientWidth * window.devicePixelRatio;
-        this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
-        this.width = this.ctx.canvas.width;
-        this.height = this.ctx.canvas.height;
-    }
-
     update(mediapipeResults) {
 
         // if new data is available

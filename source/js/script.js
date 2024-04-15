@@ -10,9 +10,8 @@ function onload() {
     p.resize();
 
     // render loop
-    setInterval(() => {
-        p.render();
-    }, 50);
+    // if all goes well, replaced by p5js
+    //setInterval(() => { p.render(); }, 50);
 
     // logic loop
     setInterval(() => {
@@ -24,7 +23,22 @@ function onload() {
 }
 
 function onresize() {
-    if (p) {
-        p.resize();
-    }
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+function setup() {
+    createCanvas(window.innerWidth, window.innerHeight, WEBGL);
+}
+  
+function draw() {
+    background(0);
+    
+    normalMaterial();
+    push();
+    translate(0, -100, 0);
+    rotateZ(frameCount * 0.01);
+    rotateX(frameCount * 0.01);
+    rotateY(frameCount * 0.01);
+    plane(70);
+    pop();
 }

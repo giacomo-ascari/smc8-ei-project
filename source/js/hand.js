@@ -1,15 +1,17 @@
 class Smoother3d {
     constructor () {
         this.old = {x: 0, y: 0, z: 0};
+        this.b0 = 0.9;
+        this.a1 = (1-this.b0);
     }
     process(input) {
         let res = {};
-        res.x = 0.3 * input.x + 0.7 * this.old.x;
-        res.y = 0.3 * input.y + 0.7 * this.old.y;
-        res.z = 0.3 * input.z + 0.7 * this.old.z;
-        this.old.x = input.x;
-        this.old.y = input.y;
-        this.old.z = input.z;
+        res.x = this.b0 * input.x + this.a1 * this.old.x;
+        res.y = this.b0 * input.y + this.a1 * this.old.y;
+        res.z = this.b0 * input.z + this.a1 * this.old.z;
+        this.old.x = res.x;
+        this.old.y = res.y;
+        this.old.z = res.z;
         return res;
     }
 }
