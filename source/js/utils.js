@@ -1,3 +1,6 @@
+// utility to iterate easily on matrixes
+// it passes ito the callback ndex 1, index 2 and a condition
+// representing if the current indexed item sits on a border
 function iterate2d(imax, jmax, callback) {
     for (let i = 0; i < imax; i++) {
         for (let j = 0; j < jmax; j++) {
@@ -10,6 +13,8 @@ function iterate2d(imax, jmax, callback) {
     }
 }
 
+// easily generates a matrix of defined size
+// 0 is the default value
 function genMatrix(xSize, ySize) {
     let mat = new Array(xSize);
     for (let x = 0; x < xSize; x++) {
@@ -21,74 +26,36 @@ function genMatrix(xSize, ySize) {
     return mat;
 }
 
-/* accepts parameters
- * h  Object = {h:x, s:y, v:z}
- * OR 
- * h, s, v
- * 0 <= h, s, v <= 1
-*/
-function HSVtoRGB(h, s, v) {
-    var r, g, b, i, f, p, q, t;
-    if (arguments.length === 1) {
-        s = h.s, v = h.v, h = h.h;
+// easily generates a square matrix of defined size
+// 0 is the default value
+function genSquareMatrix(size) {
+    let mat = new Array(size);
+    for (let x = 0; x < size; x++) {
+        mat[x] = new Array(size)
+        for (let y = 0; y < size; y++) {
+            mat[x][y] = 0;                
+        }
     }
-    i = Math.floor(h * 6);
-    f = h * 6 - i;
-    p = v * (1 - s);
-    q = v * (1 - f * s);
-    t = v * (1 - (1 - f) * s);
-    switch (i % 6) {
-        case 0: r = v, g = t, b = p; break;
-        case 1: r = q, g = v, b = p; break;
-        case 2: r = p, g = v, b = t; break;
-        case 3: r = p, g = q, b = v; break;
-        case 4: r = t, g = p, b = v; break;
-        case 5: r = v, g = p, b = q; break;
-    }
-    return {
-        r: Math.round(r * 255),
-        g: Math.round(g * 255),
-        b: Math.round(b * 255)
-    };
+    return mat;
 }
 
-/* accepts parameters
- * r  Object = {r:x, g:y, b:z}
- * OR 
- * r, g, b
- * 0 <= r, g, b <= 255
-*/
-function RGBtoHSV(r, g, b) {
-    if (arguments.length === 1) {
-        g = r.g, b = r.b, r = r.r;
-    }
-    var max = Math.max(r, g, b), min = Math.min(r, g, b),
-        d = max - min,
-        h,
-        s = (max === 0 ? 0 : d / max),
-        v = max / 255;
+// pseudo random function
+// hashing probably?? silly table??
+const rsSize = 1024;
+let randomSpace = undefined;
 
-    switch (max) {
-        case min: h = 0; break;
-        case r: h = (g - b) + d * (g < b ? 6: 0); h /= 6 * d; break;
-        case g: h = (b - r) + d * 2; h /= 6 * d; break;
-        case b: h = (r - g) + d * 4; h /= 6 * d; break;
+function pseudoRandom(a, b) {
+    if (randomSpace == undefined) {
+        randomSpace = genMatrix(rsSize, rsSize);
+        iterate2d(rsSize, rsSize, (i, j)=> {
+            randomSpace[i][j] = Math.random();
+        })
     }
-
-    return {
-        h: h,
-        s: s,
-        v: v
-    };
+    let aAdj = Math.floor(a) % rsSize;
+    let bAdj = Math.floor(b) % rsSize;
+    if (aAdj < 0) aAdj += rsSize;
+    if (bAdj < 0) bAdj += rsSize;
+    return randomSpace[aAdj][bAdj]
 }
 
-
-function RGBtoString(obj) {
-    r = Math.floor(obj.r).toString(16)
-    g = Math.floor(obj.g).toString(16)
-    b = Math.floor(obj.b).toString(16)
-    if (r.length == 1) r = "0" + r
-    if (g.length == 1) g = "0" + g
-    if (b.length == 1) b = "0" + b
-    return `#${r}${g}${b}`
-}
+pseudoRandom(0,0);

@@ -21,9 +21,6 @@
 
     <body onload="onload()" onresize="onresize()">
 
-        <!-- The main interaction happens here -->
-        <canvas id="terrainCanvas"></canvas>
-
         <!-- These elements are required for webcam functionalities
             and video feedback. All of the following sit on an overlay. -->
         <button id="webcamButton" class="buttonOverlay">START WEBCAM</button>
@@ -31,6 +28,7 @@
         <canvas id="landmarksCanvas" class="overlay"></canvas>
 
         <!-- The main interaction happens here -->
+        <!-- p5.js will automatically append a canvas -->
         <main></main>
 
     </body>

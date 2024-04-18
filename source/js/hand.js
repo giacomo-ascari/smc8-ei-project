@@ -1,7 +1,7 @@
 class Smoother3d {
     constructor () {
         this.old = {x: 0, y: 0, z: 0};
-        this.b0 = 0.9;
+        this.b0 = 0.95;
         this.a1 = (1-this.b0);
     }
     process(input) {
