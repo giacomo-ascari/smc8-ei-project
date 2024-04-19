@@ -38,24 +38,3 @@ function genSquareMatrix(size) {
     }
     return mat;
 }
-
-// pseudo random function
-// hashing probably?? silly table??
-const rsSize = 1024;
-let randomSpace = undefined;
-
-function pseudoRandom(a, b) {
-    if (randomSpace == undefined) {
-        randomSpace = genMatrix(rsSize, rsSize);
-        iterate2d(rsSize, rsSize, (i, j)=> {
-            randomSpace[i][j] = Math.random();
-        })
-    }
-    let aAdj = Math.floor(a) % rsSize;
-    let bAdj = Math.floor(b) % rsSize;
-    if (aAdj < 0) aAdj += rsSize;
-    if (bAdj < 0) bAdj += rsSize;
-    return randomSpace[aAdj][bAdj]
-}
-
-pseudoRandom(0,0);

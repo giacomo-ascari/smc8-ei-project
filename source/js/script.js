@@ -51,7 +51,7 @@ function draw() {
     //translate(0, -height/6, 0);
     
     //normalMaterial();
-    noFill();stroke(150);
+    noFill();stroke(200);
     //ambientMaterial(250);
 
     let planarScale = 30;
