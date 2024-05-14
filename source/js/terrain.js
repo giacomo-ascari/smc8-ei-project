@@ -3,7 +3,7 @@ class Terrain {
     constructor() {
         this.chunks = [];
         this.chunkSpaceSize = 32;
-        this.chunkFrequency = 20;
+        this.chunkFrequency = 15;
         this.xRadius = 2;
         this.yRadius = 1;
 

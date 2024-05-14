@@ -49,7 +49,6 @@ function perlin(x, y) {
     // x and y iterate on the point space
     // x0, y0, x1, y1 belong to the (smaller) gradient space
 
-
     let x0 = Math.floor(x);
     let y0 = Math.floor(y);
     let x1 = x0 + 1;
@@ -57,7 +56,6 @@ function perlin(x, y) {
 
     let sx = x - x0;
     let sy = y - y0;
-    print(sx, sy)
 
     // dot product between its gradient vector and
     // the offset vector to the candidate point

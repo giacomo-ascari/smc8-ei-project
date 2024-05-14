@@ -22,8 +22,8 @@ function onload() {
     ready = true;
 
     let s = "";
-    for (let i = 0; i < 25; i++) {
-        for (let j = 0; j < 40; j++) {
+    for (let i = 0; i < 40; i++) {
+        for (let j = 0; j < 60; j++) {
             s += (perlin(i/5, j/5)*10) + "\t";
         }
         s += "\n";

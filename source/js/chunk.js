@@ -15,7 +15,6 @@ class Chunk {
         this.spaceSize = spaceSize; // integer!!!
         this.space = genSquareMatrix(spaceSize+1); // points in space
 
-        // frequency means how many gradient points per integer cell in space
         this.frequency = frequency; // integer!!!
 
         //relative position of the space (index of chunk)
@@ -30,11 +29,12 @@ class Chunk {
 
         iterate2d(this.spaceSize+1, this.spaceSize+1, (i, j, onBorder) => {
 
-            let x = (this.xCorner * this.frequency + i) / this.spaceSize;
-            let y = (this.yCorner * this.frequency + j) / this.spaceSize;
+            let x = (this.xCorner * this.spaceSize + i) / this.frequency;
+            let y = (this.yCorner * this.spaceSize + j) / this.frequency;
             this.space[i][j] += perlin(x, y);
-            //this.space[x][y] += 0.5 * this.perlin(x, y, 2);
-            //this.space[x][y] += 0.25 * this.perlin(x, y, 4);
+            this.space[i][j] += 0.5 * perlin(x*2, y*2);
+            this.space[i][j] += 0.25 * perlin(x*4, y*4);
+            this.space[i][j] += 0.125 * perlin(x*8, y*8);
         })
 
     }
@@ -43,9 +43,9 @@ class Chunk {
     getModel() {
         if (this.model == undefined) {
             beginGeometry();
-            for (let x = 0; x < this.spaceSize-1; x++) {
+            for (let x = 0; x < this.spaceSize-1+1; x++) {
                 beginShape(TRIANGLE_STRIP);
-                for (let y = 0; y < this.spaceSize; y++) {
+                for (let y = 0; y < this.spaceSize+1; y++) {
                     vertex(x, y, this.space[x][y]);
                     vertex((x+1), y, this.space[x+1][y]);
                 }
