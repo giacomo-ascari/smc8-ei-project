@@ -20,6 +20,15 @@ function onload() {
 
     // tell p5.js to start drawing
     ready = true;
+
+    let s = "";
+    for (let i = 0; i < 25; i++) {
+        for (let j = 0; j < 40; j++) {
+            s += (perlin(i/5, j/5)*10) + "\t";
+        }
+        s += "\n";
+    }
+    console.log(s)
 }
 
 function onresize() {
@@ -58,6 +67,9 @@ function draw() {
     let zScale = 150;
     let zOffset = -50;
 
+    let cameraOffsetX = p.cameraX * width / planarScale;
+    let cameraOffsetY = p.cameraY * height / planarScale;
+
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
 
@@ -66,33 +78,11 @@ function draw() {
 
         push();
         scale(planarScale, planarScale, zScale)
-        translate(xOffset, yOffset, zOffset/zScale);
+        translate(xOffset + cameraOffsetX, yOffset + cameraOffsetY, zOffset / zScale);
         model(c.getModel());
         pop();
 
     }
-
-    /*push();
-    for (let i = 0; i < p.terrain.chunks.length; i++) {
-        let c = p.terrain.chunks[i];
-        let xOffset = planarScale * c.xCorner * c.spaceSize;
-        let yOffset = planarScale * c.yCorner * c.spaceSize;
-        for (let x = 0; x < c.spaceSize-1+1; x++) {
-            beginShape(TRIANGLE_STRIP);
-            for (let y = 0; y < c.spaceSize+1; y++) {
-                vertex(
-                    xOffset + x*planarScale,
-                    yOffset + y*planarScale,
-                    zOffset + c.space[x][y]*zScale);
-                vertex(
-                    xOffset + (x+1)*planarScale,
-                    yOffset + y*planarScale,
-                    zOffset + c.space[x+1][y]*zScale);
-            }
-            endShape();
-        }
-    }
-    pop();*/
     
     // normal material for both hands
     // and hands config

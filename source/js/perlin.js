@@ -4,6 +4,7 @@ const rsSize = 1024;
 let randomSpace = undefined;
 
 function pseudoRandom(a, b) {
+    //return a * 17.1 + b * 3.1;
     if (randomSpace == undefined) {
         randomSpace = genMatrix(rsSize, rsSize);
         iterate2d(rsSize, rsSize, (i, j)=> {
@@ -17,19 +18,18 @@ function pseudoRandom(a, b) {
     return randomSpace[aAdj][bAdj]
 }
 
+// force init because of lazyness
 pseudoRandom(0,0);
 
 // perlin noise implementation
-// lets hope that it works this dame god damn it
+// lets hope that it works this time god damn it
 
 function dotGridGradient(xGrad, yGrad, x, y) {
 
     // get the gradients from the pseudo random function
-    let phi = pseudoRandom(
-        xGrad,
-        yGrad
-        ) * 2 * Math.PI;
+    let phi = pseudoRandom(xGrad, yGrad) * 2 * Math.PI;
     let gradient = {x: Math.cos(phi), y: Math.sin(phi)};
+    
     let dx = x - xGrad;
     let dy = y - yGrad;
     // compute the dot-product
@@ -43,11 +43,12 @@ function interpolate(a0, a1, w) {
     //return (a1 - a0) * ((w * (w * 6.0 - 15.0) + 10.0) * w * w * w) + a0;
 }
 
-function perlin(x, y, frequency) {
+function perlin(x, y) {
 
     // perlin noise generation
     // x and y iterate on the point space
     // x0, y0, x1, y1 belong to the (smaller) gradient space
+
 
     let x0 = Math.floor(x);
     let y0 = Math.floor(y);
@@ -56,6 +57,7 @@ function perlin(x, y, frequency) {
 
     let sx = x - x0;
     let sy = y - y0;
+    print(sx, sy)
 
     // dot product between its gradient vector and
     // the offset vector to the candidate point
@@ -66,7 +68,7 @@ function perlin(x, y, frequency) {
 
     // interpolation
     let ix0 = this.interpolate(n0, n1, sx);        
-    let ix1 = this.interpolate(n2, n3, sy);
+    let ix1 = this.interpolate(n2, n3, sx);
     let value = this.interpolate(ix0, ix1, sy);
 
     return value;

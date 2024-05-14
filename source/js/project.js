@@ -7,8 +7,6 @@ class Project {
         // rendering data
         this.cameraX = 0;
         this.cameraY = 0;
-        this.width = 0;
-        this.height = 0;
         // gesture data
         this.bufferIndex = 0;
         this.rightHand = new Hand();
@@ -38,14 +36,14 @@ class Project {
         // apply the dragging
         // two hands apply are summed together and i like this
         if (this.leftHand.active && this.leftHand.isDragging) {
-            //this.cameraX -= Math.floor((this.leftHand.position.x - this.leftHand.draggingStart.x) * this.width);
-            //this.cameraY += Math.floor((this.leftHand.position.y - this.leftHand.draggingStart.y) * this.height);
+            this.cameraX -= this.leftHand.position.x - this.leftHand.draggingStart.x;
+            this.cameraY += this.leftHand.position.y - this.leftHand.draggingStart.y;
             // reset dragging after applying the delta
             this.leftHand.draggingStart = this.leftHand.position;
         }
         if (this.rightHand.active && this.rightHand.isDragging) {
-            //this.cameraX -= Math.floor((this.rightHand.position.x - this.rightHand.draggingStart.x) * this.width);
-            //this.cameraY += Math.floor((this.rightHand.position.y - this.rightHand.draggingStart.y) * this.height);
+            this.cameraX -= this.rightHand.position.x - this.rightHand.draggingStart.x;
+            this.cameraY += this.rightHand.position.y - this.rightHand.draggingStart.y;
             // reset dragging after applying the delta
             this.rightHand.draggingStart = this.rightHand.position;
         }
