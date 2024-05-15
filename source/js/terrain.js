@@ -21,4 +21,9 @@ class Terrain {
         
     }
 
+    updateChunks(cameraX, cameraY) {
+        
+        
+    }
+
 }

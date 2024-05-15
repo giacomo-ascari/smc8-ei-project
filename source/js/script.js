@@ -69,6 +69,8 @@ function draw() {
     let cameraOffsetX = p.cameraX * width;
     let cameraOffsetY = p.cameraY * height;
 
+    p.terrain.updateChunks(cameraOffsetX, cameraOffsetY);
+
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
 
