@@ -46,38 +46,37 @@ function setup() {
 // p5.js default invocation
 function draw() {
 
-    if (ready == false) { console.log("not ready yet"); return; }
+    if (ready == false) { return; }
 
     orbitControl();
 
-    background(10);
+    background(0);
     ambientLight(100);
-    //directionalLight(255, 0, 0, createVector(0, 1, 0));
-    //pointLight(255, 0, 0, -width/2, 0, 0);
+    directionalLight(255, 0, 0, createVector(0, 1, 0));
+    pointLight(255, 0, 0, -width/2, 0, 0);
     //pointLight(0, 0, 255, width/2, 0, 0);
 
-    //rotateX(20);
+    rotateX(40);
     //translate(0, -height/6, 0);
     
     //normalMaterial();
     noFill();stroke(200);
     //ambientMaterial(250);
 
-    let planarScale = 30;
     let zScale = 150;
     let zOffset = -50;
 
-    let cameraOffsetX = p.cameraX * width / planarScale;
-    let cameraOffsetY = p.cameraY * height / planarScale;
+    let cameraOffsetX = p.cameraX * width;
+    let cameraOffsetY = p.cameraY * height;
 
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
 
-        let xOffset = c.xCorner * c.spaceSize;
-        let yOffset = c.yCorner * c.spaceSize;
+        let xOffset = c.xCorner * c.spaceSize * c.scale;
+        let yOffset = c.yCorner * c.spaceSize * c.scale;
 
         push();
-        scale(planarScale, planarScale, zScale)
+        scale(1, 1, zScale)
         translate(xOffset + cameraOffsetX, yOffset + cameraOffsetY, zOffset / zScale);
         model(c.getModel());
         pop();
@@ -88,7 +87,7 @@ function draw() {
     // and hands config
     //normalMaterial();
     //fill(250, 0, 0);
-    ambientMaterial(255);
+    ambientMaterial(255); noStroke();
     //specularMaterial(250);
     //noFill();stroke(255);
 

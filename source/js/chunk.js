@@ -8,7 +8,7 @@
 
 class Chunk {
 
-    constructor(spaceSize, frequency, xCorner, yCorner) {
+    constructor(spaceSize, frequency, xCorner, yCorner, scale) {
 
         // the 'space' is just the visualization space
         // the space needs a +1 for visualization
@@ -20,6 +20,9 @@ class Chunk {
         //relative position of the space (index of chunk)
         this.xCorner = xCorner;
         this.yCorner = yCorner;
+
+        // scale of the chunk
+        this.scale = scale;
 
         // model for p5.js rendering
         this.model = undefined;
@@ -43,6 +46,7 @@ class Chunk {
     getModel() {
         if (this.model == undefined) {
             beginGeometry();
+            scale(this.scale, this.scale, 1)
             for (let x = 0; x < this.spaceSize-1+1; x++) {
                 beginShape(TRIANGLE_STRIP);
                 for (let y = 0; y < this.spaceSize+1; y++) {
