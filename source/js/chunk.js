@@ -42,6 +42,9 @@ class Chunk {
             this.space[i][j] += 0.125 * perlin(x*8, y*8);
             this.space[i][j] += 0.0625 * perlin(x*16, y*16);
             this.space[i][j] *= this.amplitude;
+            if (i == this.spaceSize+1 || j == this.spaceSize+1) {
+                this.space[i][j] -= 0.1;
+            }
         })
 
     }
