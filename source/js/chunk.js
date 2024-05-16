@@ -8,12 +8,12 @@
 
 class Chunk {
 
-    constructor(spaceSize, frequency, xCorner, yCorner, scale) {
+    constructor(spaceSize, frequency, xCorner, yCorner, scale, amplitude) {
 
         // the 'space' is just the visualization space
         // the space needs a +1 for visualization
         this.spaceSize = spaceSize; // integer!!!
-        this.space = genSquareMatrix(spaceSize+1); // points in space
+        this.space = genSquareMatrix(spaceSize+2); // points in space
 
         this.frequency = frequency; // integer!!!
 
@@ -24,13 +24,15 @@ class Chunk {
         // scale of the chunk
         this.scale = scale;
 
+        this.amplitude = amplitude;
+
         // model for p5.js rendering
         this.model = undefined;
     }
 
     build() {
 
-        iterate2d(this.spaceSize+1, this.spaceSize+1, (i, j, onBorder) => {
+        iterate2d(this.spaceSize+2, this.spaceSize+2, (i, j, onBorder) => {
 
             let x = (this.xCorner * this.spaceSize + i) / this.frequency;
             let y = (this.yCorner * this.spaceSize + j) / this.frequency;
@@ -38,6 +40,8 @@ class Chunk {
             this.space[i][j] += 0.5 * perlin(x*2, y*2);
             this.space[i][j] += 0.25 * perlin(x*4, y*4);
             this.space[i][j] += 0.125 * perlin(x*8, y*8);
+            this.space[i][j] += 0.0625 * perlin(x*16, y*16);
+            this.space[i][j] *= this.amplitude;
         })
 
     }
@@ -47,9 +51,9 @@ class Chunk {
         if (this.model == undefined) {
             beginGeometry();
             scale(this.scale, this.scale, 1)
-            for (let x = 0; x < this.spaceSize-1+1; x++) {
+            for (let x = 0; x < this.spaceSize-1+2; x++) {
                 beginShape(TRIANGLE_STRIP);
-                for (let y = 0; y < this.spaceSize+1; y++) {
+                for (let y = 0; y < this.spaceSize+2; y++) {
                     vertex(x, y, this.space[x][y]);
                     vertex((x+1), y, this.space[x+1][y]);
                 }
@@ -57,7 +61,7 @@ class Chunk {
             }
             this.model = endGeometry();
             //this.model.computeFaces();
-            this.model.computeNormals(); // SMOOTH
+            this.model.computeNormals(SMOOTH, {roundToPrecision: 2}); // SMOOTH
         }
         return this.model
     }

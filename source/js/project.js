@@ -48,6 +48,11 @@ class Project {
             this.rightHand.draggingStart = this.rightHand.position;
         }
 
+        // apply the poiting
+        if (this.leftHand.active && this.leftHand.isPointing) {
+
+        }
+
         
     }
 }

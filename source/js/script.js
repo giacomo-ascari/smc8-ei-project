@@ -20,15 +20,6 @@ function onload() {
 
     // tell p5.js to start drawing
     ready = true;
-
-    let s = "";
-    for (let i = 0; i < 40; i++) {
-        for (let j = 0; j < 60; j++) {
-            s += (perlin(i/5, j/5)*10) + "\t";
-        }
-        s += "\n";
-    }
-    console.log(s)
 }
 
 function onresize() {
@@ -51,35 +42,36 @@ function draw() {
     orbitControl();
 
     background(0);
-    ambientLight(100);
-    directionalLight(255, 0, 0, createVector(0, 1, 0));
-    pointLight(255, 0, 0, -width/2, 0, 0);
-    //pointLight(0, 0, 255, width/2, 0, 0);
-
-    rotateX(40);
-    //translate(0, -height/6, 0);
+    ambientLight(50);
     
-    //normalMaterial();
-    noFill();stroke(200);
-    //ambientMaterial(250);
+    ambientMaterial(255);
 
-    let zScale = 150;
-    let zOffset = -50;
+    let offsetAdjY = height / 5;
+    let offsetAdjZ = -50;
+    let xRotation = 30;
 
+    rotateX(xRotation);
+
+    //directionalLight(255, 0, 0, createVector(0, 1, 0));
+    pointLight(255, 0, 0, -width/2, 0, 0); // red on right
+    pointLight(0, 0, 255, width/2, 0, 0); // blue on left
+    pointLight(255, 255, 255, 0, 0, 200); // white from top
+    
     let cameraOffsetX = p.cameraX * width;
-    let cameraOffsetY = p.cameraY * height;
+    let cameraOffsetY = p.cameraY * height + offsetAdjY;
 
     p.terrain.updateChunks(cameraOffsetX, cameraOffsetY);
-
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
 
-        let xOffset = c.xCorner * c.spaceSize * c.scale;
-        let yOffset = c.yCorner * c.spaceSize * c.scale;
+        let terrainOffsetX = c.xCorner * c.spaceSize * c.scale;
+        let terrainOffsetY = c.yCorner * c.spaceSize * c.scale;
 
         push();
-        scale(1, 1, zScale)
-        translate(xOffset + cameraOffsetX, yOffset + cameraOffsetY, zOffset / zScale);
+        scale(1, 1, 1)
+        translate(
+            terrainOffsetX + cameraOffsetX,
+            terrainOffsetY + cameraOffsetY, offsetAdjZ);
         model(c.getModel());
         pop();
 
@@ -87,34 +79,29 @@ function draw() {
     
     // normal material for both hands
     // and hands config
-    //normalMaterial();
-    //fill(250, 0, 0);
-    ambientMaterial(255); noStroke();
-    //specularMaterial(250);
-    //noFill();stroke(255);
-
+    ambientMaterial(255);
     
     // draw the left hand
     if (p.leftHand.active) {
-        let z = 50, r = 50, h = 20;
-        if (p.leftHand.isDragging) z = 10;
-        else if (p.leftHand.isPointing) { r = 10; h = 100 }
+        let z = 75, r = 50;
+        if (p.leftHand.isDragging) { z = 0 }
+        else if (p.leftHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.leftHand.position.x) * width, (p.leftHand.position.y-0.5) * height, z);
         rotateX(90);
-        cylinder(r, h);
+        sphere(r, 10, 10);
         pop();
     }
 
     // draw the right hand
     if (p.rightHand.active) {
-        let z = 50, r = 50, h = 20;
-        if (p.rightHand.isDragging) z = 10;
-        else if (p.rightHand.isPointing) { r = 10; h = 100 }
+        let z = 75, r = 50;
+        if (p.rightHand.isDragging) { z = 0 }
+        else if (p.rightHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.rightHand.position.x) * width, (p.rightHand.position.y-0.5) * height, z);
         rotateX(90);
-        cylinder(r, h);
+        sphere(r, 10, 10);
         pop();
     }
 }
