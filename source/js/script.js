@@ -2,6 +2,9 @@ let p = undefined;
 
 let ready = false;
 
+let cameraOffsetX;
+let cameraOffsetY;
+
 function onload() {
     
     p = new Project();
@@ -17,6 +20,13 @@ function onload() {
             p.update(window.mediapipeResults);
         }
     }, 20);
+
+    // chunk generation loop
+    setInterval(() => {
+        if (ready == true) {
+            p.terrain.updateChunks(cameraOffsetX, cameraOffsetY);
+        }
+    }, 1000);
 
     // tell p5.js to start drawing
     ready = true;
@@ -57,10 +67,12 @@ function draw() {
     pointLight(0, 0, 255, width/2, 0, 0); // blue on left
     pointLight(255, 255, 255, 0, 0, 200); // white from top
     
-    let cameraOffsetX = p.cameraX * width;
-    let cameraOffsetY = p.cameraY * height + offsetAdjY;
+    // globabl variables
+    cameraOffsetX = p.cameraX * width;
+    cameraOffsetY = p.cameraY * height + offsetAdjY;
 
-    p.terrain.updateChunks(cameraOffsetX, cameraOffsetY);
+    //
+    
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
 
