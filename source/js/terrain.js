@@ -1,17 +1,13 @@
 class Terrain {
 
-    constructor() {
-        this.chunks = [];
-        this.chunkSpaceSize = 60;
-        this.chunkFrequency = 30;
+    constructor(chunkSpaceSize, chunkFrequency, scale, amplitude) {
         
-        if (width <= 1920 && height <= 1080) {
-            this.scale = 15;
-        } else {
-            this.scale = 18;
-        }
+        this.chunks = [];
 
-        this.amplitude = 150;
+        this.chunkSpaceSize = chunkSpaceSize;
+        this.chunkFrequency = chunkFrequency;
+        this.scale = scale;
+        this.amplitude = amplitude;
 
         this.xRenderCenter = 0;
         this.yRenderCenter = 0;

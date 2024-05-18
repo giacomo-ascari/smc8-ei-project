@@ -2,8 +2,11 @@
 class Project {
 
     constructor() {
+        this.amplitude = 150;
+        this.scale = 15;
+        if (width > 1920 || height > 1080) this.scale = 18;
         // terrain ofc
-        this.terrain = new Terrain();
+        this.terrain = new Terrain(60, 30, this.scale, this.amplitude);
         // rendering data
         this.cameraX = 0;
         this.cameraY = 0;
@@ -11,7 +14,6 @@ class Project {
         this.bufferIndex = 0;
         this.rightHand = new Hand();
         this.leftHand = new Hand();
-        this.ready = true;
     }
 
     update(mediapipeResults) {
