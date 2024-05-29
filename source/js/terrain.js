@@ -62,7 +62,8 @@ class Terrain {
             }
         }
 
-        for (let c = 0; c < this.chunks.length; c++) {
+        // delete chunks (not needed probably)
+        /*for (let c = 0; c < this.chunks.length; c++) {
             let found = false;
             for (let k = 0; k < toKeep.length; k++) {
                 if (this.chunks[c].xCorner == toKeep[k].i && this.chunks[c].yCorner == toKeep[k].j) {
@@ -75,7 +76,7 @@ class Terrain {
                 c--;
             }
 
-        }
+        }*/
 
     }
 

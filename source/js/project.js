@@ -14,6 +14,7 @@ class Project {
         this.bufferIndex = 0;
         this.rightHand = new Hand();
         this.leftHand = new Hand();
+        this.rightHandTrace = [];
     }
 
     update(mediapipeResults) {
@@ -50,9 +51,11 @@ class Project {
             this.rightHand.draggingStart = this.rightHand.position;
         }
 
-        // apply the poiting
-        if (this.leftHand.active && this.leftHand.isPointing) {
-
+        // apply the pointing
+        if (this.rightHand.active && this.rightHand.isPointing) {
+            this.rightHandTrace.push({x: this.rightHand.position.x, y: this.rightHand.position.y});
+        } else {
+            this.rightHandTrace = []
         }
 
         

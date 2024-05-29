@@ -54,6 +54,7 @@ function draw() {
     background(0);
     ambientLight(50);
     
+    noStroke();
     ambientMaterial(255);
 
     let offsetAdjY = height / 5;
@@ -62,10 +63,14 @@ function draw() {
 
     rotateX(xRotation);
 
-    //directionalLight(255, 0, 0, createVector(0, 1, 0));
-    pointLight(255, 0, 0, -width/2, 0, 0); // red on right
-    pointLight(0, 0, 255, width/2, 0, 0); // blue on left
-    pointLight(255, 255, 255, 0, 0, 200); // white from top
+    directionalLight(255, 0, 0, createVector(0, -1, 0));
+
+    //box(30, 50, 50)
+    //directionalLight(255, 0, 0, createVector(1, 0, 0));
+    //directionalLight(0, 0, 255, createVector(-1, 0, 0));
+    //pointLight(255, 0, 0, -width/2, 0, 0); // red on right
+    //pointLight(0, 0, 255, width/2, 0, 0); // blue on left
+    //pointLight(255, 255, 255, 0, 0, 200); // white from top
     
     // globabl variables
     cameraOffsetX = p.cameraX * width;
@@ -89,9 +94,10 @@ function draw() {
 
     }
     
-    // normal material for both hands
+    // material for both hands
     // and hands config
-    ambientMaterial(255);
+    noFill();
+    stroke(255);
     
     // draw the left hand
     if (p.leftHand.active) {
@@ -100,7 +106,6 @@ function draw() {
         else if (p.leftHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.leftHand.position.x) * width, (p.leftHand.position.y-0.5) * height, z);
-        rotateX(90);
         sphere(r, 10, 10);
         pop();
     }
@@ -112,8 +117,17 @@ function draw() {
         else if (p.rightHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.rightHand.position.x) * width, (p.rightHand.position.y-0.5) * height, z);
-        rotateX(90);
         sphere(r, 10, 10);
         pop();
+    }
+
+    if (p.rightHandTrace.length > 0) {
+        console.log("aaa")
+        for (let i = 0; i < p.rightHandTrace.length; i++) {
+            push();
+            translate((0.5-p.rightHandTrace[i].x) * width, (p.rightHandTrace[i].y-0.5) * height, 0);
+            sphere(10, 10, 10);
+            pop();
+        }
     }
 }
