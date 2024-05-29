@@ -106,6 +106,7 @@ function draw() {
         else if (p.leftHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.leftHand.position.x) * width, (p.leftHand.position.y-0.5) * height, z);
+        rotateX(90);
         sphere(r, 10, 10);
         pop();
     }
@@ -117,16 +118,42 @@ function draw() {
         else if (p.rightHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.rightHand.position.x) * width, (p.rightHand.position.y-0.5) * height, z);
+        rotateX(90);
         sphere(r, 10, 10);
         pop();
     }
 
-    if (p.rightHandTrace.length > 0) {
-        console.log("aaa")
-        for (let i = 0; i < p.rightHandTrace.length; i++) {
+    // color for the traces
+    stroke(255, 255, 0);
+
+    // draw the left hand trace
+    if (p.leftHandTrace.length > 1) {
+        for (let i = 0; i < p.leftHandTrace.length - 1; i++) {
             push();
-            translate((0.5-p.rightHandTrace[i].x) * width, (p.rightHandTrace[i].y-0.5) * height, 0);
-            sphere(10, 10, 10);
+            let dx = (p.leftHandTrace[i].x - p.leftHandTrace[i+1].x) * width;
+            let dy = (p.leftHandTrace[i].y - p.leftHandTrace[i+1].y) * height;
+            let distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            let angle = -Math.atan2(dy, dx) * 180 / Math.PI;
+            translate((0.5-p.leftHandTrace[i].x) * width + dx/2, (p.leftHandTrace[i].y-0.5) * height - dy/2, 0);
+            rotateZ(angle);
+            rotateX(90);
+            plane(distance, p.amplitude * 1.3);
+            pop();
+        }
+    }
+
+    // draw the right hand trace
+    if (p.rightHandTrace.length > 1) {
+        for (let i = 0; i < p.rightHandTrace.length - 1; i++) {
+            push();
+            let dx = (p.rightHandTrace[i].x - p.rightHandTrace[i+1].x) * width;
+            let dy = (p.rightHandTrace[i].y - p.rightHandTrace[i+1].y) * height;
+            let distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            let angle = -Math.atan2(dy, dx) * 180 / Math.PI;
+            translate((0.5-p.rightHandTrace[i].x) * width + dx/2, (p.rightHandTrace[i].y-0.5) * height - dy/2, 0);
+            rotateZ(angle);
+            rotateX(90);
+            plane(distance, p.amplitude * 1.3);
             pop();
         }
     }

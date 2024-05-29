@@ -15,6 +15,8 @@ class Project {
         this.rightHand = new Hand();
         this.leftHand = new Hand();
         this.rightHandTrace = [];
+        this.leftHandTrace = [];
+        this.waves = [];
     }
 
     update(mediapipeResults) {
@@ -51,13 +53,23 @@ class Project {
             this.rightHand.draggingStart = this.rightHand.position;
         }
 
-        // apply the pointing
+        // apply the pointing and build trace if complete
+        if (this.leftHand.active && this.leftHand.isPointing) {
+            this.leftHandTrace.push({x: this.leftHand.position.x, y: this.leftHand.position.y});
+        } else if (this.leftHand.active && this.leftHandTrace.length > 10) {
+            // build wave if trace is complete
+            let wave = new Wave(this.leftHandTrace, 10000, this.cameraX, this.cameraY);
+            console.log("aaaa");
+            this.waves.push(wave);
+            this.leftHandTrace = [];
+        } else {
+            this.leftHandTrace = [];
+        }
         if (this.rightHand.active && this.rightHand.isPointing) {
             this.rightHandTrace.push({x: this.rightHand.position.x, y: this.rightHand.position.y});
         } else {
-            this.rightHandTrace = []
+            this.rightHandTrace = [];
         }
 
-        
     }
 }

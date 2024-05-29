@@ -36,12 +36,7 @@ class Chunk {
 
             let x = (this.xCorner * this.spaceSize + i) / this.frequency;
             let y = (this.yCorner * this.spaceSize + j) / this.frequency;
-            this.space[i][j] += perlin(x, y);
-            this.space[i][j] += 0.5 * perlin(x*2, y*2);
-            this.space[i][j] += 0.25 * perlin(x*4, y*4);
-            this.space[i][j] += 0.125 * perlin(x*8, y*8);
-            this.space[i][j] += 0.0625 * perlin(x*16, y*16);
-            this.space[i][j] *= this.amplitude;
+            this.space[i][j] = this.amplitude * layeredperlin(x, y);
             if (i == this.spaceSize+1 || j == this.spaceSize+1) {
                 this.space[i][j] -= 0.5;
             }

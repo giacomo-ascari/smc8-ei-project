@@ -71,3 +71,18 @@ function perlin(x, y) {
 
     return value;
 }
+
+
+function layeredperlin(x, y) {
+    
+    // cool one, with octaves
+    let z = 0;
+    z += 0.5 * (Math.pow(perlin(x/2, y/2) + 1, 2) - 1);
+    z += perlin(x, y);
+    z += 0.5 * perlin(x*2, y*2);
+    z += 0.25 * perlin(x*4, y*4);
+    z += 0.125 * perlin(x*8, y*8);
+    z += 0.0625 * perlin(x*16, y*16);
+    
+    return z;
+}
