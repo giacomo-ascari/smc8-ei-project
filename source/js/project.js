@@ -17,6 +17,11 @@ class Project {
         this.rightHandTrace = [];
         this.leftHandTrace = [];
         this.waves = [];
+
+
+        this.waves.push(new Wave(
+            [{x:0.3, y:0.6},{x:0.4, y:0.7},{x:0.5, y:0.6},{x:0.45, y:0.5 }],
+            0, 0, this.scale));
     }
 
     update(mediapipeResults) {
@@ -58,8 +63,7 @@ class Project {
             this.leftHandTrace.push({x: this.leftHand.position.x, y: this.leftHand.position.y});
         } else if (this.leftHand.active && this.leftHandTrace.length > 10) {
             // build wave if trace is complete
-            let wave = new Wave(this.leftHandTrace, 10000, this.cameraX, this.cameraY);
-            console.log("aaaa");
+            let wave = new Wave(this.leftHandTrace, this.cameraX, this.cameraY, this.scale);
             this.waves.push(wave);
             this.leftHandTrace = [];
         } else {

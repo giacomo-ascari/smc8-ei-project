@@ -38,3 +38,21 @@ function genSquareMatrix(size) {
     }
     return mat;
 }
+
+// calculate euclidian distance between two points
+function distance(a, b) {
+    return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+}
+
+// linear interpolation of two points
+function interpolate2d(a, b, val) {
+    return {
+        x: a.x * (1 - val) + b.x * val,
+        y: a.y * (1 - val) + b.y * val
+    }
+}
+
+// linear interpolation of two points
+function interpolate1d(a, b, val) {
+    return a * (1 - val) + b * val;
+}

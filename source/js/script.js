@@ -76,7 +76,7 @@ function draw() {
     cameraOffsetX = p.cameraX * width;
     cameraOffsetY = p.cameraY * height + offsetAdjY;
 
-    //
+    // chunks
     
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
@@ -88,10 +88,38 @@ function draw() {
         scale(1, 1, 1)
         translate(
             terrainOffsetX + cameraOffsetX,
-            terrainOffsetY + cameraOffsetY, offsetAdjZ);
+            terrainOffsetY + cameraOffsetY,
+            offsetAdjZ);
         model(c.getModel());
         pop();
 
+    }
+
+    // waves
+
+    noFill();
+    stroke(0, 255, 0);
+
+    push();
+    scale(1, 1, 1);
+    translate(0.5, 0.5, 0);
+    sphere(5, 3, 3);
+    
+    noFill();
+    stroke(255, 255, 0);
+
+    for (let i = 0; i < p.waves.length; i++) {
+        let w = p.waves[i];
+        for (let j = 0; j < w.data.length; j+=2) {
+            push();
+            scale(1, 1, 1)
+            translate(
+                (p.cameraX - 0.5 + w.cameraX + w.data[j].x) * width,
+                (p.cameraY - 0.5 + w.cameraY + w.data[j].y) * height,
+                offsetAdjZ - w.data[j].z * p.amplitude);
+            sphere(5, 4, 4);
+            pop();
+        }
     }
     
     // material for both hands

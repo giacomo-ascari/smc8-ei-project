@@ -4,6 +4,7 @@ body {
   padding: 0;
   color: #eeeeee;
   background-color: #000;
+  overflow: hidden;
 }
 
 /* Flip the webcam video stream */
