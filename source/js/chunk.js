@@ -37,7 +37,7 @@ class Chunk {
             let x = (this.xCorner * this.spaceSize + i) / this.frequency;
             let y = (this.yCorner * this.spaceSize + j) / this.frequency;
             this.space[i][j] = this.amplitude * layeredperlin(x, y);
-            if (i == this.spaceSize+1 || j == this.spaceSize+1) {
+            if (i >= this.spaceSize+1 || j >= this.spaceSize+1) {
                 this.space[i][j] -= 0.5;
             }
         })

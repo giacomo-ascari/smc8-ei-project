@@ -22,8 +22,9 @@ class Terrain {
             let c = new Chunk(e.data.spaceSize, e.data.frequency, e.data.xCorner, e.data.yCorner, e.data.scale, e.data.amplitude);
             c.space = e.data.space;
             if (!this.chunkExists(c.xCorner, c.yCorner)) {
-                console.log("duplicate chunk received from worker");
                 this.chunks.push(c);
+            } else {
+                console.log("duplicate chunk received from worker");
             }
         };
         
@@ -51,6 +52,7 @@ class Terrain {
                 if (!this.chunkExists(i, j)) {
                     // tell worker to make a new chunk
                     this.worker.postMessage({
+                        randomSpace: randomSpace,
                         spaceSize: this.chunkSpaceSize,
                         frequency: this.chunkFrequency,
                         xCorner: i,

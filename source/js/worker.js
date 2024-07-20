@@ -7,6 +7,7 @@ importScripts("chunk.js")
 
 
 onmessage = (e) => {
+    randomSpace = e.data.randomSpace;
     let chunk = new Chunk(e.data.spaceSize, e.data.frequency, e.data.xCorner, e.data.yCorner, e.data.scale, e.data.amplitude);
     chunk.build();
     postMessage(chunk);

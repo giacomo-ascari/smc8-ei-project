@@ -1,9 +1,12 @@
 // pseudo random function
 // hashing probably?? silly table??
 const rsSize = 1024;
+
 let randomSpace = undefined;
 
 function pseudoRandom(a, b) {
+    a = a * 7.2 + 2.4;
+    b = b * 3 + 5;
     //return a * 17.1 + b * 3.1;
     if (randomSpace == undefined) {
         randomSpace = genMatrix(rsSize, rsSize);

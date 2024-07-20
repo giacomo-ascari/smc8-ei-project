@@ -3,10 +3,11 @@ class Project {
 
     constructor() {
         this.amplitude = 150;
-        this.scale = 15;
+        this.scale = 12;
         if (width > 1920 || height > 1080) this.scale = 18;
         // terrain ofc
-        this.terrain = new Terrain(60, 30, this.scale, this.amplitude);
+        this.frequency = 40;
+        this.terrain = new Terrain(50, this.frequency, this.scale, this.amplitude);
         // rendering data
         this.cameraX = 0;
         this.cameraY = 0;
@@ -17,11 +18,6 @@ class Project {
         this.rightHandTrace = [];
         this.leftHandTrace = [];
         this.waves = [];
-
-
-        this.waves.push(new Wave(
-            [{x:0.3, y:0.6},{x:0.4, y:0.7},{x:0.5, y:0.6},{x:0.45, y:0.5 }],
-            0, 0, this.scale));
     }
 
     update(mediapipeResults) {
@@ -63,7 +59,7 @@ class Project {
             this.leftHandTrace.push({x: this.leftHand.position.x, y: this.leftHand.position.y});
         } else if (this.leftHand.active && this.leftHandTrace.length > 10) {
             // build wave if trace is complete
-            let wave = new Wave(this.leftHandTrace, this.cameraX, this.cameraY, this.scale);
+            let wave = new Wave(this.leftHandTrace, this.cameraX, this.cameraY, this.scale, this.frequency);
             this.waves.push(wave);
             this.leftHandTrace = [];
         } else {
@@ -71,6 +67,11 @@ class Project {
         }
         if (this.rightHand.active && this.rightHand.isPointing) {
             this.rightHandTrace.push({x: this.rightHand.position.x, y: this.rightHand.position.y});
+        } else if (this.rightHand.active && this.rightHandTrace.length > 10) {
+            // build wave if trace is complete
+            let wave = new Wave(this.rightHandTrace, this.cameraX, this.cameraY, this.scale, this.frequency);
+            this.waves.push(wave);
+            this.rightHandTrace = [];
         } else {
             this.rightHandTrace = [];
         }

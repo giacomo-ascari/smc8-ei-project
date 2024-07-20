@@ -2,9 +2,6 @@ let p = undefined;
 
 let ready = false;
 
-let cameraOffsetX;
-let cameraOffsetY;
-
 function onload() {
     
     p = new Project();
@@ -24,7 +21,7 @@ function onload() {
     // chunk generation loop
     setInterval(() => {
         if (ready == true) {
-            p.terrain.updateChunks(cameraOffsetX, cameraOffsetY);
+            p.terrain.updateChunks(p.cameraX * width, p.cameraY * height);
         }
     }, 1000);
 
@@ -51,33 +48,28 @@ function draw() {
 
     orbitControl();
 
+    // shift for visibility
+    let offsetAdjY = -height / 10; 
+    let offsetAdjZ = -height / 8;
+    let xRotation =  30;
+    translate(0, offsetAdjY, offsetAdjZ)
+    rotateX(xRotation);
+
+    // lighting
     background(0);
     ambientLight(50);
+    directionalLight(255, 0, 20, createVector(0, -1, 0));
     
+    // shift for camera
+    // some global variables to keep updated
+    // here things move according to the camera
+    push();
+    translate(p.cameraX * width, p.cameraY * height);   
+    
+    // chunks
     noStroke();
     ambientMaterial(255);
 
-    let offsetAdjY = height / 5;
-    let offsetAdjZ = -50;
-    let xRotation = 30;
-
-    rotateX(xRotation);
-
-    directionalLight(255, 0, 0, createVector(0, -1, 0));
-
-    //box(30, 50, 50)
-    //directionalLight(255, 0, 0, createVector(1, 0, 0));
-    //directionalLight(0, 0, 255, createVector(-1, 0, 0));
-    //pointLight(255, 0, 0, -width/2, 0, 0); // red on right
-    //pointLight(0, 0, 255, width/2, 0, 0); // blue on left
-    //pointLight(255, 255, 255, 0, 0, 200); // white from top
-    
-    // globabl variables
-    cameraOffsetX = p.cameraX * width;
-    cameraOffsetY = p.cameraY * height + offsetAdjY;
-
-    // chunks
-    
     for (let i = 0; i < p.terrain.chunks.length; i++) {
         let c = p.terrain.chunks[i];
 
@@ -86,41 +78,39 @@ function draw() {
 
         push();
         scale(1, 1, 1)
-        translate(
-            terrainOffsetX + cameraOffsetX,
-            terrainOffsetY + cameraOffsetY,
-            offsetAdjZ);
+        translate(terrainOffsetX, terrainOffsetY, 0);
         model(c.getModel());
         pop();
 
     }
 
     // waves
-
-    noFill();
-    stroke(0, 255, 0);
-
-    push();
-    scale(1, 1, 1);
-    translate(0.5, 0.5, 0);
-    sphere(5, 3, 3);
-    
+    // material for waves
     noFill();
     stroke(255, 255, 0);
-
+    // draw waves
     for (let i = 0; i < p.waves.length; i++) {
         let w = p.waves[i];
-        for (let j = 0; j < w.data.length; j+=2) {
+        for (let j = 0; j < w.data.length; j+=3) {
             push();
             scale(1, 1, 1)
             translate(
-                (p.cameraX - 0.5 + w.cameraX + w.data[j].x) * width,
-                (p.cameraY - 0.5 + w.cameraY + w.data[j].y) * height,
-                offsetAdjZ - w.data[j].z * p.amplitude);
-            sphere(5, 4, 4);
+                w.data[j].x * width,
+                w.data[j].y * height,
+                w.data[j].z * p.amplitude);
+            box(3, 3, 10);
             pop();
         }
     }
+
+    // end of camera shift
+    // now things will stay fixed
+    pop();
+
+    // plane for debug
+    //noFill();
+    //stroke(255, 255, 255);
+    //plane(width, height)
     
     // material for both hands
     // and hands config
@@ -130,7 +120,7 @@ function draw() {
     // draw the left hand
     if (p.leftHand.active) {
         let z = 75, r = 50;
-        if (p.leftHand.isDragging) { z = 0 }
+        if (p.leftHand.isDragging) { z = 20; r = 45; }
         else if (p.leftHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.leftHand.position.x) * width, (p.leftHand.position.y-0.5) * height, z);
@@ -142,7 +132,7 @@ function draw() {
     // draw the right hand
     if (p.rightHand.active) {
         let z = 75, r = 50;
-        if (p.rightHand.isDragging) { z = 0 }
+        if (p.rightHand.isDragging) { z = 20; r = 45; }
         else if (p.rightHand.isPointing) { r = 10 }
         push();
         translate((0.5-p.rightHand.position.x) * width, (p.rightHand.position.y-0.5) * height, z);
@@ -154,7 +144,7 @@ function draw() {
     // color for the traces
     stroke(255, 255, 0);
 
-    // draw the left hand trace
+    // draw the left hand traces
     if (p.leftHandTrace.length > 1) {
         for (let i = 0; i < p.leftHandTrace.length - 1; i++) {
             push();
@@ -170,7 +160,7 @@ function draw() {
         }
     }
 
-    // draw the right hand trace
+    // draw the right hand traces
     if (p.rightHandTrace.length > 1) {
         for (let i = 0; i < p.rightHandTrace.length - 1; i++) {
             push();
