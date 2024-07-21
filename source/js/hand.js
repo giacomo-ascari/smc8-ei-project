@@ -30,6 +30,7 @@ class Hand {
         // for gesture related actions
         this.isDragging = false;
         this.isPointing = false;
+        this.isThumbingDown = false;
         this.draggingStart = {x: 0, y: 0, z: 0}
     }
 
@@ -54,6 +55,9 @@ class Hand {
         
         // pointing
         this.isPointing = gesture == "Pointing_Up";
+
+        // thumbing down
+        this.isThumbingDown = gesture == "Thumb_Down";
 
         this.gesture = gesture;
 

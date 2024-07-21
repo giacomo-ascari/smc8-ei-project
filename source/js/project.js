@@ -3,10 +3,10 @@ class Project {
 
     constructor() {
         this.amplitude = 150;
-        this.scale = 12;
-        if (width > 1920 || height > 1080) this.scale = 18;
+        this.scale = 11;
+        if (width > 1920 || height > 1080) this.scale = 13;
         // terrain ofc
-        this.frequency = 40;
+        this.frequency = 50;
         this.terrain = new Terrain(50, this.frequency, this.scale, this.amplitude);
         // rendering data
         this.cameraX = 0;
@@ -74,6 +74,32 @@ class Project {
             this.rightHandTrace = [];
         } else {
             this.rightHandTrace = [];
+        }
+
+        // delete existing wave looking at their proximity
+        if (this.leftHand.active && this.leftHand.isThumbingDown) {
+            for (let i = 0; i < this.waves.length; i++) {
+                let boundaries = this.waves[i].getBoundaries();
+                let x = 0.5 - this.leftHand.position.x - this.cameraX;
+                let y = this.leftHand.position.y - 0.5 - this.cameraY;
+                if (x > boundaries.minX && x < boundaries.maxX && y > boundaries.minY && y < boundaries.maxY) {
+                    this.waves[i].destroy();
+                    this.waves.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+        if (this.rightHand.active && this.rightHand.isThumbingDown) {
+            for (let i = 0; i < this.waves.length; i++) {
+                let boundaries = this.waves[i].getBoundaries();
+                let x = 0.5 - this.rightHand.position.x - this.cameraX;
+                let y = this.rightHand.position.y - 0.5 - this.cameraY;
+                if (x > boundaries.minX && x < boundaries.maxX && y > boundaries.minY && y < boundaries.maxY) {
+                    this.waves[i].destroy();
+                    this.waves.splice(i, 1);
+                    i--;
+                }
+            }
         }
 
     }

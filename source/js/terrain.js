@@ -12,7 +12,7 @@ class Terrain {
         this.xRenderCenter = 0;
         this.yRenderCenter = 0;
 
-        this.xRadius = 2;
+        this.xRadius = 3;
         this.yRadius = 2;
 
         this.worker = new Worker('js/worker.js');

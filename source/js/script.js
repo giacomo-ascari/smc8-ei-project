@@ -112,16 +112,15 @@ function draw() {
     //stroke(255, 255, 255);
     //plane(width, height)
     
-    // material for both hands
-    // and hands config
-    noFill();
-    stroke(255);
+    // drawing the hands
     
     // draw the left hand
     if (p.leftHand.active) {
         let z = 75, r = 50;
         if (p.leftHand.isDragging) { z = 20; r = 45; }
         else if (p.leftHand.isPointing) { r = 10 }
+        if (p.leftHand.isThumbingDown) { noFill(); stroke(255, 127, 0); }
+        else { noFill(); stroke(255); }
         push();
         translate((0.5-p.leftHand.position.x) * width, (p.leftHand.position.y-0.5) * height, z);
         rotateX(90);
@@ -134,6 +133,8 @@ function draw() {
         let z = 75, r = 50;
         if (p.rightHand.isDragging) { z = 20; r = 45; }
         else if (p.rightHand.isPointing) { r = 10 }
+        if (p.rightHand.isThumbingDown) { noFill(); stroke(255, 127, 0); }
+        else { noFill(); stroke(255); }
         push();
         translate((0.5-p.rightHand.position.x) * width, (p.rightHand.position.y-0.5) * height, z);
         rotateX(90);
