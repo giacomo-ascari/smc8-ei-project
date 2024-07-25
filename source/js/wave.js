@@ -58,14 +58,6 @@ class Wave {
             buffer.getChannelData(0)[i] = this.data[i].z;
         }
 
-        this.source = audioContext.createBufferSource();
-        this.source.buffer = buffer;
-        this.source.loop = true;
-        this.source.connect(audioContext.destination);
-        this.source.start();
-    }
-
-    getBoundaries() {
         let minX = 1000000, minY = 1000000, maxX = -1000000, maxY = -1000000;
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].x < minX) minX = this.data[i].x;
@@ -73,10 +65,58 @@ class Wave {
             if (this.data[i].y < minY) minY = this.data[i].y;
             if (this.data[i].y > maxY) maxY = this.data[i].y;
         }
-        return {minX: minX, minY: minY, maxX: maxX, maxY: maxY};
+        this.boundaries = {minX: minX, minY: minY, maxX: maxX, maxY: maxY};
+        this.center = {x: (maxX - minX) / 2, y: (maxY - minY) / 2, z: 0}
+
+        this.source = audioContext.createBufferSource();
+        this.panner = audioContext.createPanner();
+
+        this.source.connect(this.panner);
+        this.panner.connect(audioContext.destination);
+
+        this.panner.panningModel = "HRTF"; // or equalpower
+        this.panner.distanceModel = "inverse"; // or linear or exponential
+        this.panner.refDistance = 0.5;
+        this.panner.maxDistance = 1000;
+        this.panner.rolloffFactor = 1;
+        this.panner.coneInnerAngle = 360;
+        this.panner.coneOuterAngle = 0;
+        this.panner.coneOuterGain = 0;
+
+        /*if (this.panner.orientationX) {
+            this.panner.orientationX.setValueAtTime(1, audioContext.currentTime);
+            this.panner.orientationY.setValueAtTime(0, audioContext.currentTime);
+            this.panner.orientationZ.setValueAtTime(0, audioContext.currentTime);
+        } else {
+            panner.setOrientation(1, 0, 0);
+        }*/
+
+        this.panner.positionX.setValueAtTime(this.center.x, audioContext.currentTime);
+        this.panner.positionY.setValueAtTime(this.center.y, audioContext.currentTime);
+        this.panner.positionZ.setValueAtTime(this.center.z, audioContext.currentTime);
+
+        this.source.buffer = buffer;
+        this.source.loop = true;
+        this.source.start();
     }
 
     destroy() {
         this.source.stop();
     }
+}
+
+
+function updateListener(cameraX, cameraY) {
+
+    let listener = audioContext.listener;
+
+    listener.forwardX.setValueAtTime(0, audioContext.currentTime); // direction it faces
+    listener.forwardY.setValueAtTime(-1, audioContext.currentTime);
+    listener.forwardZ.setValueAtTime(0, audioContext.currentTime);
+    listener.upX.setValueAtTime(0, audioContext.currentTime); // top of the head direction
+    listener.upY.setValueAtTime(0, audioContext.currentTime);
+    listener.upZ.setValueAtTime(1, audioContext.currentTime);
+    listener.positionX.setValueAtTime(cameraX, audioContext.currentTime);
+    listener.positionY.setValueAtTime(cameraY, audioContext.currentTime);
+    listener.positionZ.setValueAtTime(1, audioContext.currentTime);
 }

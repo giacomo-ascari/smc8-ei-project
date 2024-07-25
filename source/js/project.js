@@ -79,7 +79,7 @@ class Project {
         // delete existing wave looking at their proximity
         if (this.leftHand.active && this.leftHand.isThumbingDown) {
             for (let i = 0; i < this.waves.length; i++) {
-                let boundaries = this.waves[i].getBoundaries();
+                let boundaries = this.waves[i].boundaries;
                 let x = 0.5 - this.leftHand.position.x - this.cameraX;
                 let y = this.leftHand.position.y - 0.5 - this.cameraY;
                 if (x > boundaries.minX && x < boundaries.maxX && y > boundaries.minY && y < boundaries.maxY) {
@@ -91,7 +91,7 @@ class Project {
         }
         if (this.rightHand.active && this.rightHand.isThumbingDown) {
             for (let i = 0; i < this.waves.length; i++) {
-                let boundaries = this.waves[i].getBoundaries();
+                let boundaries = this.waves[i].boundaries;
                 let x = 0.5 - this.rightHand.position.x - this.cameraX;
                 let y = this.rightHand.position.y - 0.5 - this.cameraY;
                 if (x > boundaries.minX && x < boundaries.maxX && y > boundaries.minY && y < boundaries.maxY) {
