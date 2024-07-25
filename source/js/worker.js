@@ -1,5 +1,5 @@
 //https://glitch.com/edit/#!/p5js-web-worker?path=worker.js%3A55%3A50
-importScripts("p5.js");
+//importScripts("p5.js");
 
 importScripts("utils.js")
 importScripts("perlin.js")
