@@ -51,7 +51,7 @@ function draw() {
 
     if (ready == false) { return; }
 
-    orbitControl();
+    //orbitControl();
 
     // shift for visibility
     let offsetAdjY = -height / 10; 
@@ -96,7 +96,7 @@ function draw() {
     // draw waves
     for (let i = 0; i < p.waves.length; i++) {
         let w = p.waves[i];
-        for (let j = 0; j < w.data.length; j+=3) {
+        for (let j = 0; j < w.data.length; j+=4) {
             push();
             scale(1, 1, 1)
             translate(

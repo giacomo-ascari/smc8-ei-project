@@ -72,21 +72,22 @@ function perlin(x, y) {
     let ix1 = this.interpolate(n2, n3, sx);
     let value = this.interpolate(ix0, ix1, sy);
 
+    if (Math.abs(value) < 0.707106781) console.error("PERLIN BORKE")
+    // the value should be at max 1/sqrt(2)
+
     return value;
 }
 
 
 function layeredperlin(x, y) {
-    
     // cool one, with octaves
     let z = 0;
     z += perlin(x, y);
     z += 0.5 * perlin(x*2, y*2);
     z += 0.25 * perlin(x*4, y*4);
     z += 0.125 * perlin(x*8, y*8);
-    z += 0.0625 * perlin(x*16, y*16);
-    z += 0.03125 * perlin(x*32, y*32);
-    z *= (Math.pow(perlin(x/2, y/2) + 1, 2));
-
+    z += (0.0625 + 0.002) * perlin(x*16, y*16);
+    z += (0.03125 + 0.001) * perlin(x*32, y*32);
+    z += - Math.pow(perlin(x/2, y/2), 2);
     return z;
 }
