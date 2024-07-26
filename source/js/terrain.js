@@ -12,8 +12,9 @@ class Terrain {
         this.xRenderCenter = 0;
         this.yRenderCenter = 0;
 
-        this.xRadius = 3;
-        this.yRadius = 2;
+        this.xRadius = 6;
+        this.yRadius = 4;
+        this.firstTime = true;
 
         this.worker = new Worker('js/worker.js');
 
@@ -27,8 +28,6 @@ class Terrain {
                 console.log("duplicate chunk received from worker");
             }
         };
-        
-        this.updateChunks(0, 0);
     }
 
     chunkExists(i, j) {
@@ -42,8 +41,20 @@ class Terrain {
 
     updateChunks(cameraX, cameraY) {
         
-        this.xRenderCenter = Math.floor(-cameraX / (this.chunkSpaceSize * this.scale))
-        this.yRenderCenter = Math.floor(-cameraY / (this.chunkSpaceSize * this.scale))
+        let newXRenderCenter = (-cameraX / (this.chunkSpaceSize * this.scale))
+        let newYRenderCenter = (-cameraY / (this.chunkSpaceSize * this.scale))
+
+        if (
+            distance({x: this.xRenderCenter, y: this.yRenderCenter}, {x: newXRenderCenter, y: newYRenderCenter})
+            < 0.67 * Math.min(this.xRadius, this.yRadius)
+            && !this.firstTime
+        ) return;
+
+        this.firstTime = false;
+        console.log("updating terrain");
+        
+        this.xRenderCenter = Math.floor(newXRenderCenter);
+        this.yRenderCenter = Math.floor(newYRenderCenter);
 
         let toKeep = [];
         for (let i = this.xRenderCenter-this.xRadius; i < this.xRenderCenter+this.xRadius; i++) {

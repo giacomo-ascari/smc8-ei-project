@@ -17,9 +17,10 @@ function onload() {
             p.update(window.mediapipeResults);
         }
         // audio spatialization
-        if (p.waves.length > 0) {
+        if (p.waves != undefined) {
             updateListener(p.cameraX, p.cameraY);
         }
+        //printAudioStatus(p.waves)
     }, 20);
 
     // chunk generation loop
@@ -50,7 +51,7 @@ function draw() {
 
     if (ready == false) { return; }
 
-    //orbitControl();
+    orbitControl();
 
     // shift for visibility
     let offsetAdjY = -height / 10; 

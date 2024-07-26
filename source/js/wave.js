@@ -77,23 +77,20 @@ class Wave {
         this.panner.panningModel = "HRTF"; // or equalpower
         this.panner.distanceModel = "inverse"; // or linear or exponential
         this.panner.refDistance = 0.5;
-        this.panner.maxDistance = 1000;
+        //this.panner.maxDistance = 10000;
         this.panner.rolloffFactor = 1;
         this.panner.coneInnerAngle = 360;
-        this.panner.coneOuterAngle = 0;
-        this.panner.coneOuterGain = 0;
+        //this.panner.coneOuterAngle = 0;
+        //this.panner.coneOuterGain = 0;
 
-        /*if (this.panner.orientationX) {
-            this.panner.orientationX.setValueAtTime(1, audioContext.currentTime);
-            this.panner.orientationY.setValueAtTime(0, audioContext.currentTime);
-            this.panner.orientationZ.setValueAtTime(0, audioContext.currentTime);
-        } else {
-            panner.setOrientation(1, 0, 0);
-        }*/
+        //this.panner.positionX.setValueAtTime(this.center.x, audioContext.currentTime);
+        //this.panner.positionY.setValueAtTime(this.center.y, audioContext.currentTime);
+        //this.panner.positionZ.setValueAtTime(this.center.z, audioContext.currentTime);
 
-        this.panner.positionX.setValueAtTime(this.center.x, audioContext.currentTime);
-        this.panner.positionY.setValueAtTime(this.center.y, audioContext.currentTime);
-        this.panner.positionZ.setValueAtTime(this.center.z, audioContext.currentTime);
+        this.panner.positionX.setValueAtTime(this.data[0].x, audioContext.currentTime);
+        this.panner.positionY.setValueAtTime(this.data[0].y, audioContext.currentTime);
+        this.panner.positionZ.setValueAtTime(0, audioContext.currentTime);
+
 
         this.source.buffer = buffer;
         this.source.loop = true;
@@ -105,18 +102,43 @@ class Wave {
     }
 }
 
+function printAudioStatus(waves) {
+
+    let listener = audioContext.listener;
+
+    if (waves != undefined) {
+        for (let i = 0; i < waves.length; i++) {
+            let panner = waves[i].panner;
+            let distanceToL = distance(
+                {x: panner.positionX.value, y: panner.positionY.value},
+                {x: listener.positionX.value, y: listener.positionY.value}
+            );
+            console.log(
+                "Wave", i,
+                "| x", twoDecimals(panner.positionX.value),
+                "| y", twoDecimals(panner.positionY.value),
+                "| z", twoDecimals(panner.positionZ.value),
+                "| dtl", twoDecimals(distanceToL));
+        }
+    }
+    console.log(
+        "Listener | x", twoDecimals(listener.positionX.value),
+        "| y", twoDecimals(listener.positionY.value),
+        "| z", twoDecimals(listener.positionZ.value));
+}
+
 
 function updateListener(cameraX, cameraY) {
 
     let listener = audioContext.listener;
 
     listener.forwardX.setValueAtTime(0, audioContext.currentTime); // direction it faces
-    listener.forwardY.setValueAtTime(-1, audioContext.currentTime);
+    listener.forwardY.setValueAtTime(1, audioContext.currentTime);
     listener.forwardZ.setValueAtTime(0, audioContext.currentTime);
     listener.upX.setValueAtTime(0, audioContext.currentTime); // top of the head direction
     listener.upY.setValueAtTime(0, audioContext.currentTime);
     listener.upZ.setValueAtTime(1, audioContext.currentTime);
-    listener.positionX.setValueAtTime(cameraX, audioContext.currentTime);
-    listener.positionY.setValueAtTime(cameraY, audioContext.currentTime);
-    listener.positionZ.setValueAtTime(1, audioContext.currentTime);
+    listener.positionX.setValueAtTime(-cameraX, audioContext.currentTime);
+    listener.positionY.setValueAtTime(0.5-cameraY, audioContext.currentTime);
+    listener.positionZ.setValueAtTime(0.5, audioContext.currentTime);
 }

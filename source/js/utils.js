@@ -56,3 +56,8 @@ function interpolate2d(a, b, val) {
 function interpolate1d(a, b, val) {
     return a * (1 - val) + b * val;
 }
+
+//
+function twoDecimals(val) {
+    return Math.round(val * 100) / 100;
+}
