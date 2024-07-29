@@ -70,6 +70,9 @@ function enableCam(event) {
         return;
     }
 
+    let tutorialDiv = document.getElementById("tutorial");
+    tutorialDiv.style.display = "none";
+
     if (webcamRunning === true) {
         webcamRunning = false;
         enableWebcamButton.innerText = "START PREDICTIONS";

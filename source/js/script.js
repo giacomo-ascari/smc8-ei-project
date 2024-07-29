@@ -61,8 +61,8 @@ function draw() {
     rotateX(xRotation);
 
     // lighting
-    background(0);
-    ambientLight(50);
+    background(50);
+    ambientLight(40);
     directionalLight(255, 0, 20, createVector(0, -1, 0));
     
     // shift for camera
@@ -117,6 +117,14 @@ function draw() {
     //stroke(255, 255, 255);
     //plane(width, height)
     
+    // draw the area of action of the hands
+    noFill();
+    stroke(200);
+    line(-width/2, height/2, 0, width/2, height/2, 0);
+    line(-width/2, -height/2, 0, width/2, -height/2, 0);
+    line(-width/2, -height/2, 0, -width/2, height/2, 0);
+    line(width/2, -height/2, 0, width/2, height/2, 0);
+
     // drawing the hands
     
     // draw the left hand
